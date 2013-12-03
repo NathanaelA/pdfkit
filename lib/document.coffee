@@ -98,16 +98,16 @@ class PDFDocument
                @generateXRef out
                @generateTrailer out
                
-               ret = ''
+               ret = []
                for k in out
-                   ret += k + '\n'
+                   ret.push(k + '\n')
                    
-               fn ret
+               fn new Buffer(ret.join(''),'binary')
         
     finalize: (fn) ->
         # convert strings in the info dictionary to literals
         for key, val of @info when typeof val is 'string'
-            @info[key] = PDFObject.s val
+            @info[key] = PDFObject.s val, true
         
         # embed the subsetted fonts
         @embedFonts =>

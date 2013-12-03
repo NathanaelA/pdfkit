@@ -114,12 +114,13 @@ module.exports =
             return opts
 
         # Update the current position
-        if x? or y?
-            @x = x or @x
-            @y = y or @y
+        if x?
+            @x = x
+        if y?
+            @y = y
 
         # wrap to margins if no x or y position passed
-        else
+        unless options.lineBreak is false
             margins = @page.margins
             options.width ?= @page.width - @x - margins.right
             options.height ?= @page.height - @y - margins.bottom
