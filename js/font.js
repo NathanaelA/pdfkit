@@ -231,7 +231,7 @@ By Devon Govett
       width = 0;
       for (i = _i = 0, _ref = string.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
         charCode = string.charCodeAt(i) - (this.isAFM ? 0 : 32);
-        width += this.charWidths[charCode] || 0;
+        width += this.charWidths[charCode] || this.charWidths[this.isAFM ? 48 : 16] || 0;
       }
       scale = size / 1000;
       return width * scale;

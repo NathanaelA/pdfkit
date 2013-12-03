@@ -114,12 +114,12 @@ By Devon Govett
           var k, ret, _i, _len;
           _this.generateXRef(out);
           _this.generateTrailer(out);
-          ret = '';
+          ret = [];
           for (_i = 0, _len = out.length; _i < _len; _i++) {
             k = out[_i];
-            ret += k + '\n';
+            ret.push(k + '\n');
           }
-          return fn(ret);
+          return fn(new Buffer(ret.join(''), 'binary'));
         });
       });
     };
@@ -131,7 +131,7 @@ By Devon Govett
       for (key in _ref) {
         val = _ref[key];
         if (typeof val === 'string') {
-          this.info[key] = PDFObject.s(val);
+          this.info[key] = PDFObject.s(val, true);
         }
       }
       return this.embedFonts(function() {

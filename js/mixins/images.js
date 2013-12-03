@@ -55,6 +55,11 @@
           h = bh;
           w = bh * ip;
         }
+        if (options.align === 'center') {
+          x = x + bw / 2 - w / 2;
+        } else if (options.align === 'right') {
+          x = x + bw - w;
+        }
       }
       if (this.y === y) {
         this.y += h;

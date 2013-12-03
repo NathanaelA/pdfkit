@@ -9,7 +9,7 @@ By Devon Govett
   var PDFObject, PDFReference;
 
   PDFObject = (function() {
-    var pad;
+    var pad, swapBytes;
 
     function PDFObject() {}
 
@@ -51,8 +51,29 @@ By Devon Govett
       }
     };
 
-    PDFObject.s = function(string) {
+    swapBytes = function(buff) {
+      var a, i, l, _i, _ref;
+      l = buff.length;
+      if (l & 0x01) {
+        throw new Error("Buffer length must be even");
+      } else {
+        for (i = _i = 0, _ref = l - 1; _i < _ref; i = _i += 2) {
+          a = buff[i];
+          buff[i] = buff[i + 1];
+          buff[i + 1] = a;
+        }
+      }
+      return buff;
+    };
+
+    PDFObject.s = function(string, swap) {
+      if (swap == null) {
+        swap = false;
+      }
       string = string.replace(/\\/g, '\\\\\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+      if (swap) {
+        string = swapBytes(new Buffer('\ufeff' + string, 'ucs-2')).toString('binary');
+      }
       return {
         isString: true,
         toString: function() {
